@@ -20,15 +20,11 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="이름" />
-
         <EditText
             android:id="@+id/user_set_name"
             android:layout_width="300dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/person_24_px" />
 
     </LinearLayout>
 
@@ -37,16 +33,12 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="이메일" />
 
         <EditText
             android:id="@+id/user_set_email"
             android:layout_width="300dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/email_24_px" />
     </LinearLayout>
 
     <LinearLayout
@@ -56,15 +48,12 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="직장" />
 
         <EditText
             android:id="@+id/user_set_division"
             android:layout_width="300dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/business_24_px" />
 
     </LinearLayout>
 
@@ -75,15 +64,12 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="전화번호" />
 
         <EditText
             android:id="@+id/user_set_tel"
             android:layout_width="300dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/call_24_px" />
 
     </LinearLayout>
 
@@ -98,11 +84,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#1A534BAE"
-
             android:lineSpacingExtra="6.8sp"
             android:text="취소"
             android:textColor="#1d1c1c"
             android:textSize="13.8sp" />
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="wrap_content">
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/add_btn"

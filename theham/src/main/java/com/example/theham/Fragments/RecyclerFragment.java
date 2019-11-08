@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -42,6 +43,8 @@ public class RecyclerFragment extends Fragment {
 
     Bitmap mBitmap;
     Bitmap mResult;
+
+    ImageView null_image;
 
 
     SwipeController swipeController = null;
@@ -72,6 +75,7 @@ public class RecyclerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         CardData();
 
+
     }
 
     @Override
@@ -81,6 +85,8 @@ public class RecyclerFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_recycler, container, false);
 
         fab = v.findViewById(R.id.fab);
+
+        null_image = v.findViewById(R.id.null_image);
 
         recyclerView = v.findViewById(R.id.recyclerview);
 
@@ -99,6 +105,7 @@ public class RecyclerFragment extends Fragment {
         cardList.size();
 
         setupRecyclerView();
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,7 +163,7 @@ public class RecyclerFragment extends Fragment {
                             Toast.makeText(getContext(), "필수 작성 목록입니다.", Toast.LENGTH_SHORT).show();
                         } else {
 
-                            CardList list = new CardList(R.drawable.card_image, R.drawable.card_image, get_user_name, get_user_division);
+                            CardList list = new CardList(R.drawable.ic_person_black_24dp, R.drawable.card_image, get_user_name, get_user_division);
                             cardList.add(list);
 
                             cardAdapter.notifyItemInserted(cardList.size());
@@ -200,14 +207,14 @@ public class RecyclerFragment extends Fragment {
 
     public void CardData() {
         cardList = new ArrayList<>();
-        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "asdf", "asdf"));
-        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "123", "asdf"));
-        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "456", "asdf"));
-        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "789", "asdf"));
-        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "000", "asdf"));
-        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "이예성", "asdf"));
-        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "김민준", "asdf"));
-        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "김현우", "asdf"));
+//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "asdf", "asdf"));
+//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "123", "asdf"));
+//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "456", "asdf"));
+//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "789", "asdf"));
+//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "000", "asdf"));
+//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "이예성", "asdf"));
+//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "김민준", "asdf"));
+//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "김현우", "asdf"));
 
     }
 

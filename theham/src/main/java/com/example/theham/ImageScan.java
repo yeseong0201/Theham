@@ -52,6 +52,7 @@ public class ImageScan extends AppCompatActivity {
     private Button mButton;
     private PhotoView photoView;
 
+
     Bitmap mBitmap;
     Bitmap mResult;
 
@@ -75,7 +76,7 @@ public class ImageScan extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_scan);
 
@@ -137,8 +138,7 @@ public class ImageScan extends AppCompatActivity {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
-                        // TODO Saving
-                        mResult = null;
+
 
                     }
                 })
@@ -167,6 +167,7 @@ public class ImageScan extends AppCompatActivity {
         };
         initOpenCV();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
