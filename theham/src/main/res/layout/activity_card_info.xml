@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".CardInfo">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/card_image" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/info_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이예성" />
+
+        <TextView
+            android:id="@+id/info_tel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="010-5158-0096" />
+
+        <TextView
+            android:id="@+id/info_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ys020121@naver.com" />
+
+        <TextView
+            android:id="@+id/info_company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="애플파이 9기 부부장" />
+    </LinearLayout>
+
+</LinearLayout>

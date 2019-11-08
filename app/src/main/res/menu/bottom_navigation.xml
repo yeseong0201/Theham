@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottom_exchange"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="명함 교환" />
+    <item
+        android:id="@+id/bottom_recycler"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="명함 관리" />
+    <item
+        android:id="@+id/bottom_scan"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="명함 스캔" />
+    <item
+        android:id="@+id/bottom_making"
+        android:enabled="true"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="명함 제작" />
+</menu>

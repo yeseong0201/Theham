@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "160198081903",
+    "firebase_url": "https://theham-3a483.firebaseio.com",
+    "project_id": "theham-3a483",
+    "storage_bucket": "theham-3a483.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160198081903:android:87f5e5afeed41e4572bc9a",
+        "android_client_info": {
+          "package_name": "com.example.theham"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160198081903-9bqbtemu1kcic3l5ekk6ir9dreqojcnp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.theham",
+            "certificate_hash": "6cd5d4375f23de9d439cc85c8848c351fb55668b"
+          }
+        },
+        {
+          "client_id": "160198081903-glqcop4sf4htaqkt5ai641r8081k2nfr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBB-nxlpbjh5wItwcBaovmBEqnarGLEmb8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160198081903-glqcop4sf4htaqkt5ai641r8081k2nfr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

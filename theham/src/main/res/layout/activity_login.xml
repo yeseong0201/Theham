@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.LoginActivity">
+
+    <ImageView
+        android:id="@+id/LOGO"
+        android:layout_width="108dp"
+        android:layout_height="65dp"
+        android:src="@drawable/logo_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <TextView
+        android:id="@+id/TX1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="12dp"
+        android:gravity="end"
+        android:letterSpacing="0.4"
+        android:lineSpacingExtra="9.8sp"
+        android:text="더"
+        android:textColor="#1d1c1c"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="@id/LOGO"
+        app:layout_constraintTop_toBottomOf="@id/LOGO" />
+
+
+    <TextView
+        android:id="@+id/TX2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="15dp"
+        android:gravity="end"
+        android:letterSpacing="0.4"
+        android:lineSpacingExtra="9.8sp"
+        android:text="함"
+        android:textColor="#1d1c1c"
+        android:textSize="20sp"
+        app:layout_constraintRight_toRightOf="@id/LOGO"
+        app:layout_constraintTop_toBottomOf="@id/LOGO" />
+
+
+    <EditText
+        android:id="@+id/et_eamil"
+        android:layout_width="0dp"
+        android:textCursorDrawable="@drawable/dg_cursor"
+        android:layout_height="32dp"
+        android:layout_marginHorizontal="42dp"
+        android:layout_marginTop="61dp"
+        android:background="#10534BAE"
+        android:hint="   ID"
+        android:inputType="textEmailAddress"
+        android:textColorHint="#534bae"
+        android:textSize="17.5sp"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TX1" />
+
+
+    <EditText
+        android:id="@+id/et_password"
+        android:layout_width="0dp"
+        android:textCursorDrawable="@drawable/dg_cursor"
+
+        android:layout_height="32dp"
+        android:layout_marginTop="12.5dp"
+        android:background="#10534BAE"
+        android:hint="   PW"
+        android:inputType="textPassword"
+        android:textColorHint="#534bae"
+        android:textSize="17.5sp"
+        app:layout_constraintLeft_toLeftOf="@id/et_eamil"
+        app:layout_constraintRight_toRightOf="@id/et_eamil"
+        app:layout_constraintTop_toBottomOf="@+id/et_eamil" />
+
+    <Button
+        android:id="@+id/btn_signUp"
+        android:layout_width="78dp"
+        android:layout_height="37.5dp"
+        android:layout_marginTop="41.2dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/white"
+        android:text="회원가입"
+
+        android:textColor="#534bae"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btn_signIn"
+        app:layout_constraintTop_toBottomOf="@id/et_password" />
+
+    <Button
+        android:id="@+id/btn_signIn"
+        android:layout_width="78dp"
+        android:layout_height="37.5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="41.2dp"
+        android:background="@android:color/white"
+        android:text="LOGIN"
+        android:textColor="#534bae"
+        app:layout_constraintLeft_toRightOf="@id/btn_signUp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_password" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
