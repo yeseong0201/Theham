@@ -1,7 +1,6 @@
 package com.example.theham.Fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -30,7 +28,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.theham.Activities.MainActivity;
 import com.example.theham.CardAdapter;
 import com.example.theham.CardList;
-import com.example.theham.ImageScan;
 import com.example.theham.R;
 import com.example.theham.controllers.SwipeController;
 import com.example.theham.controllers.SwipeControllerActions;
@@ -116,14 +113,14 @@ public class RecyclerFragment extends Fragment {
                         .inflate(R.layout.card_dialog, null, false);
                 builder.setView(view);
 
-                ImageButton set_user_card = view.findViewById(R.id.select_scan_mode);
+             //   ImageButton set_user_card = view.findViewById(R.id.select_scan_mode);
 
-                set_user_card.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(getContext().getApplicationContext(), ImageScan.class));
-                    }
-                });
+//                set_user_card.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        startActivity(new Intent(getContext().getApplicationContext(), ImageScan.class));
+//                    }
+//                });
 
                 final EditText set_user_name = view.findViewById(R.id.user_set_name);
                 final EditText set_user_tel = view.findViewById(R.id.user_set_tel);

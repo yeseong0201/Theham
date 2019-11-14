@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="300dp"
     android:layout_height="500dp"
     android:gravity="center"
     android:orientation="vertical">
 
-    <ImageButton
-        android:id="@+id/select_scan_mode"
-        android:layout_width="335dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:backgroundTint="#cc534bae"
-        android:src="@drawable/ic_crop_free_black_24dp" />
+    <!--<ImageButton-->
+    <!--android:id="@+id/select_scan_mode"-->
+    <!--android:layout_width="335dp"-->
+    <!--android:layout_height="200dp"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:backgroundTint="#cc534bae"-->
+    <!--android:src="@drawable/ic_crop_free_black_24dp" />-->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#1a237e"
+        android:gravity="center"
+        android:text="명함추가"
+        android:textColor="#fff"
+        android:textSize="25sp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -28,84 +38,56 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+
+    <EditText
+        android:id="@+id/user_set_email"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:drawableLeft="@drawable/email_24_px" />
 
-        <EditText
-            android:id="@+id/user_set_email"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/email_24_px" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-
+    <EditText
+        android:id="@+id/user_set_division"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:drawableLeft="@drawable/business_24_px" />
 
 
-        <EditText
-            android:id="@+id/user_set_division"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/business_24_px" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-
+    <EditText
+        android:id="@+id/user_set_tel"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:drawableLeft="@drawable/call_24_px" />
 
-
-        <EditText
-            android:id="@+id/user_set_tel"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/call_24_px" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_marginTop="10dp">
 
         <Button
             android:id="@+id/cancel_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:background="#1A534BAE"
             android:lineSpacingExtra="6.8sp"
             android:text="취소"
             android:textColor="#1d1c1c"
             android:textSize="13.8sp" />
 
-        <LinearLayout
-            android:layout_width="100dp"
-            android:layout_height="wrap_content">
-
-        </LinearLayout>
 
         <Button
             android:id="@+id/add_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:background="#1A534BAE"
             android:lineSpacingExtra="6.8sp"
             android:text="추가하기"
             android:textColor="#1d1c1c"
             android:textSize="13.8sp" />
 
-    </LinearLayout>
-
+    </RelativeLayout>
 
 </LinearLayout>
+
