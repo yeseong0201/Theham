@@ -34,7 +34,8 @@
             android:id="@+id/user_set_name"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/person_24_px" />
+            android:drawableLeft="@drawable/person_24_px"
+            android:inputType="text" />
 
     </LinearLayout>
 

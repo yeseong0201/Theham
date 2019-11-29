@@ -26,13 +26,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        text1 = findViewById(R.id.text1);
-
-
-        // '더'랑 '함'에 글자색 입히기
-        Spannable spannable = (Spannable) text1.getText();
-        spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#1a237e")), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#1a237e")), 11, 12, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textDesign();
 
         handlerDelayStart(SplashActivity.MESSAGE_WHAT_TIMER, 1500);
 
@@ -63,6 +57,16 @@ public class SplashActivity extends AppCompatActivity {
 
         }
     };
+
+    public void textDesign(){
+        text1 = findViewById(R.id.text1);
+
+        // '더'랑 '함'에 글자색 입히기
+        Spannable spannable = (Spannable) text1.getText();
+        spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#1a237e")), 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#1a237e")), 11, 12, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+    }
 
     public void handlerDelayStart(int what, int time) {
 

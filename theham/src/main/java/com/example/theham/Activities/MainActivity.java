@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
         actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
+        actionBar.setDisplayHomeAsUpEnabled(false); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
 
 
     }
@@ -104,13 +104,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerFragment = new RecyclerFragment();
         makingFragment = new MakingFragment();
 
-
         fragments.add(exchangeFragment);
         fragments.add(recyclerFragment);
         fragments.add(makingFragment);
 
         fragmentUtils = new FragmentUtils(R.id.framelayout, fragments);
-        fragmentUtils.setCurrentFragmentByPosition(getSupportFragmentManager(), 0, new Bundle());
+       // fragmentUtils.setCurrentFragmentByPosition(getSupportFragmentManager(), 0, new Bundle());
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -122,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.bottom_recycler:
                         fragmentUtils.setCurrentFragmentByPosition(getSupportFragmentManager(), 1, new Bundle());
                         return true;
-                    case R.id.bottom_scan:
+                    case R.id.bottom_making:
                         fragmentUtils.setCurrentFragmentByPosition(getSupportFragmentManager(), 2, new Bundle());
                         return true;
                 }

@@ -35,6 +35,7 @@ import org.opencv.core.Point;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -121,6 +122,7 @@ public class ImageScan extends AppCompatActivity {
                         photoView = mResultDialog.getCustomView().findViewById(R.id.imageView);
                         photoView.setImageBitmap(mResult);
 
+
                         mResultDialog.show();
                     }
 
@@ -138,8 +140,12 @@ public class ImageScan extends AppCompatActivity {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
-
-
+                        Intent intent = new Intent(ImageScan.this, CardInfo.class);
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        mResult.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                        byte[] byteArray = stream.toByteArray();
+                        intent.putExtra("Scanning image", byteArray);
+                        startActivity(intent);
                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {

@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         sign_up_btn = findViewById(R.id.btn_signUp);
-
         sign_in_btn = findViewById(R.id.btn_signIn);
 
         // 파이어베이스 인증 객체 선언

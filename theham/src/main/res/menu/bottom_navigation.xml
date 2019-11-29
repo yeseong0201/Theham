@@ -11,7 +11,7 @@
         android:icon="@drawable/ic_person_black_24dp"
         android:title="명함 관리" />
     <item
-        android:id="@+id/bottom_scan"
+        android:id="@+id/bottom_making"
         android:enabled="true"
         android:icon="@drawable/ic_crop_land"
         android:title="명함 제작" />

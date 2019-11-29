@@ -4,8 +4,6 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder> implements Filterable {
+public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder> {
 
     // Item의 클릭 상태를 저장할 array 객체
     private SparseBooleanArray selectedItems = new SparseBooleanArray();
@@ -25,7 +23,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
     private int visible_count = 1;
 
     private ArrayList<CardList> listData;
-    private ArrayList<CardList> listDataAll;
 
 
     public CardAdapter(ArrayList<CardList> cardList) {
@@ -49,6 +46,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
 
             // changeVisibility();
 
+
             if (isItemSelected(position)) {
                 holder.card.setVisibility(View.VISIBLE);
             }
@@ -56,20 +54,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
 
     }
 
-    public void addItem() {
-
-    }
-
 
     @Override
     public int getItemCount() {
         return listData.size();
-    }
-
-    @Override
-    public Filter getFilter() {
-        return filter;
-
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -130,38 +118,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
         selectedItems.clear();
     }
 
-    Filter filter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-
-            ArrayList<CardList> filteredList = new ArrayList<>();
-
-            if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(listDataAll);
-            } else {
-                String filterPattern = constraint.toString().toLowerCase().trim();
-
-                for (CardList models : listDataAll) {
-
-                    if (models.getItem_name().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(models);
-                    }
-                }
-            }
-
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
-
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            listData.clear();
-            listData.addAll((ArrayList) results.values);
-            notifyDataSetChanged();
-        }
-    };
 
 //    private void changeVisibility(final boolean isExpanded) {
 //        // height 값을 dp로 지정해서 넣고싶으면 아래 소스를 이용

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,40 +8,104 @@
     android:orientation="vertical"
     tools:context=".CardInfo">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/cd_info_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#0e0b47"
+        android:elevation="4dp"
+        android:gravity="center"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+    </androidx.appcompat.widget.Toolbar>
+
+
     <ImageView
+        android:id="@+id/card_info_image"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_margin="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/dg_card_radius"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cd_info_toolbar" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/card_info_profile"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/person_24_px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_info_image" />
+
+    <TextView
+        android:id="@+id/card_info_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:src="@drawable/card_image" />
+        android:layout_margin="10dp"
+        android:text="홍길동"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toRightOf="@id/card_info_profile"
+        app:layout_constraintTop_toBottomOf="@id/card_info_image" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/card_info_division"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="삼성전자"
+        android:textSize="15dp"
+        app:layout_constraintLeft_toRightOf="@id/card_info_profile"
+        app:layout_constraintTop_toBottomOf="@id/card_info_name" />
+
+    <TextView
+        android:id="@+id/tv_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="이메일"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_info_profile" />
+
+    <TextView
+        android:id="@+id/card_info_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginLeft="10dp"
+        android:text="ys020121@naver.com"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_email" />
 
-        <TextView
-            android:id="@+id/info_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="이예성" />
+    <TextView
+        android:id="@+id/tv_tel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:text="전화번호"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_info_email" />
 
-        <TextView
-            android:id="@+id/info_tel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="010-5158-0096" />
+    <TextView
+        android:id="@+id/card_info_tel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:drawableRight="@drawable/call_24_px"
+        android:text="010-5158-0096"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_tel" />
 
-        <TextView
-            android:id="@+id/info_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ys020121@naver.com" />
 
-        <TextView
-            android:id="@+id/info_company"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="애플파이 9기 부부장" />
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

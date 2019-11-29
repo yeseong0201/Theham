@@ -1,14 +1,11 @@
 package com.example.theham.Fragments;
 
-import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -18,8 +15,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.SearchView;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.theham.Activities.MainActivity;
 import com.example.theham.CardAdapter;
+import com.example.theham.CardInfo;
 import com.example.theham.CardList;
 import com.example.theham.R;
 import com.example.theham.controllers.SwipeController;
@@ -43,7 +39,6 @@ public class RecyclerFragment extends Fragment {
 
     ImageView null_image;
 
-
     SwipeController swipeController = null;
 
     FloatingActionButton fab;
@@ -53,16 +48,11 @@ public class RecyclerFragment extends Fragment {
 
     RecyclerView.LayoutManager layoutManager;
 
-    Context context = getContext();
-
-
     MainActivity mainActivity = (MainActivity) getActivity();
 
     public ArrayList<CardList> cardList;
 
     CardAdapter cardAdapter;
-
-    Menu menu;
 
     public RecyclerFragment() {
     }
@@ -72,18 +62,15 @@ public class RecyclerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         CardData();
 
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_recycler, container, false);
 
         fab = v.findViewById(R.id.fab);
-
-        null_image = v.findViewById(R.id.null_image);
 
         recyclerView = v.findViewById(R.id.recyclerview);
 
@@ -101,7 +88,7 @@ public class RecyclerFragment extends Fragment {
 
         cardList.size();
 
-        setupRecyclerView();
+        setupRecyclerView1();
 
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +100,7 @@ public class RecyclerFragment extends Fragment {
                         .inflate(R.layout.card_dialog, null, false);
                 builder.setView(view);
 
-             //   ImageButton set_user_card = view.findViewById(R.id.select_scan_mode);
+                //   ImageButton set_user_card = view.findViewById(R.id.select_scan_mode);
 
 //                set_user_card.setOnClickListener(new View.OnClickListener() {
 //                    @Override
@@ -165,7 +152,16 @@ public class RecyclerFragment extends Fragment {
 
                             cardAdapter.notifyItemInserted(cardList.size());
 
+                            Intent intent = new Intent(getActivity().getApplicationContext(), CardInfo.class);
+                            intent.putExtra("info_name", get_user_name);
+                            intent.putExtra("info_tel", get_user_tel);
+                            intent.putExtra("info_email", get_user_email);
+                            intent.putExtra("info_division", get_user_division);
+                            startActivity(intent);
+
                             dialog.dismiss();
+
+
                         }
                     }
                 });
@@ -178,63 +174,31 @@ public class RecyclerFragment extends Fragment {
         return v;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        getActivity().getMenuInflater().inflate(R.menu.search_menu, menu);
-        MenuItem searchitem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchitem);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                cardAdapter.getFilter().filter(newText);
-
-                return false;
-            }
-        });
-
-    }
-
     public void CardData() {
         cardList = new ArrayList<>();
-//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "asdf", "asdf"));
-//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "123", "asdf"));
-//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "456", "asdf"));
-//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "789", "asdf"));
-//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "000", "asdf"));
-//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "이예성", "asdf"));
-//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "김민준", "asdf"));
-//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "김현우", "asdf"));
+        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "asdf", "asdf"));
+        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "123", "asdf"));
+        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "456", "asdf"));
+        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "789", "asdf"));
+        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "000", "asdf"));
+        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "이예성", "asdf"));
+        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "김민준", "asdf"));
+        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "김현우", "asdf"));
 
     }
 
+    private void setupRecyclerView1() {
 
-    private void setupRecyclerView() {
+
         swipeController = new SwipeController(new SwipeControllerActions() {
             @Override
             public void onRightClicked(int position) {
                 cardList.remove(position);
+
                 cardAdapter.notifyItemRemoved(position);
                 cardAdapter.notifyItemRangeChanged(position, cardAdapter.getItemCount());
             }
-
-            @Override
-            public void onLeftClicked(int position) {
-                super.onLeftClicked(position);
-
-                cardList.get(position);
-                cardAdapter.notifyItemRangeChanged(0, cardList.size());
-
-            }
         });
-
 
         ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
         itemTouchhelper.attachToRecyclerView(recyclerView);
