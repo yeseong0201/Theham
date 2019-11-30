@@ -8,6 +8,7 @@ import android.os.Message;
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,11 +25,14 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
 
         textDesign();
 
         handlerDelayStart(SplashActivity.MESSAGE_WHAT_TIMER, 1500);
+
 
     }
 
@@ -58,7 +62,7 @@ public class SplashActivity extends AppCompatActivity {
         }
     };
 
-    public void textDesign(){
+    public void textDesign() {
         text1 = findViewById(R.id.text1);
 
         // '더'랑 '함'에 글자색 입히기

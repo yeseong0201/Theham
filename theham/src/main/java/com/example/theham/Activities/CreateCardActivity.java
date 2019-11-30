@@ -61,6 +61,8 @@ public class CreateCardActivity extends AppCompatActivity implements View.OnClic
 
         set_text_change = findViewById(R.id.set_text_change);
 
+
+
         typingText();
 
 
@@ -110,14 +112,14 @@ public class CreateCardActivity extends AppCompatActivity implements View.OnClic
 
         Bitmap captureview = capture_layout.getDrawingCache();
 
+
+        // 여기
+
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         captureview.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
+        MainActivity.byteArray = stream.toByteArray();
 
-        MakingFragment fr = new MakingFragment();
-        Bundle bundle = new Bundle();
-        bundle.putByteArray("capturedImage", byteArray);
-        fr.setArguments(bundle);
+        //
 
         FileOutputStream fos = null;
 
@@ -146,6 +148,8 @@ public class CreateCardActivity extends AppCompatActivity implements View.OnClic
             e.printStackTrace();
 
         }
+
+        MakingFragment.getBitmapCardView();
         finish();
 
     }

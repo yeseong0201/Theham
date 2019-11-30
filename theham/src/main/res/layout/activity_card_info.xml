@@ -21,7 +21,6 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-
     <ImageView
         android:id="@+id/card_info_image"
         android:layout_width="match_parent"

@@ -43,6 +43,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
             holder.item_profile.setImageResource(listData.get(position).getDrawableId());
             holder.item_name.setText(listData.get(position).getItem_name());
             holder.item_division.setText(listData.get(position).getItem_division());
+            holder.item_email.setText(listData.get(position).getItem_Email());
+            holder.item_tel.setText(listData.get(position).getItem_tel());
 
             // changeVisibility();
 
@@ -63,7 +65,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
     public class ItemViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView item_profile, card;
-        private TextView item_name, item_division;
+        private TextView item_name, item_division, item_email, item_tel;
 
 
         public ItemViewHolder(@NonNull View itemView) {
@@ -73,6 +75,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
             item_profile = itemView.findViewById(R.id.item_profile);
             item_name = itemView.findViewById(R.id.item_name);
             item_division = itemView.findViewById(R.id.item_division);
+            item_email = itemView.findViewById(R.id.item_email);
+            item_tel = itemView.findViewById(R.id.item_tel);
+
 
             if (listData.size() == 0) {
 

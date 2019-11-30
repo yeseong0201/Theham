@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +14,16 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.theham.Activities.CreateCardActivity;
+import com.example.theham.Activities.MainActivity;
 import com.example.theham.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MakingFragment extends Fragment {
     FloatingActionButton fab;
-    ImageView personalCard;
+    public static ImageView personalCard;
     TextView asdf;
-
+    public static byte[] byteimage;
+    public static Bitmap bitmap;
 
 //    public MakingFragment() {
 //    }
@@ -31,7 +34,6 @@ public class MakingFragment extends Fragment {
 
 
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,23 +50,16 @@ public class MakingFragment extends Fragment {
 
         fabClick();
 
-        getBitmapCardView();
-
         return v;
     }
 
-    private void getBitmapCardView() {
+    // 여기
+    public static void getBitmapCardView() {
+        byteimage = MainActivity.byteArray;
+        bitmap = BitmapFactory.decodeByteArray(byteimage, 0, byteimage.length);
+        personalCard.setImageBitmap(bitmap);
 
-        Bundle extra = this.getArguments();
-        if (extra != null) {
-            extra = getArguments();
-
-            byte[] getByteArray = extra.getByteArray("capturedImage");
-            Bitmap getBitmap = BitmapFactory.decodeByteArray(getByteArray, 0, getByteArray.length);
-
-            personalCard.setImageBitmap(getBitmap);
-
-        }
+        Log.e("byte length", byteimage.length + "");
     }
 
     private void fabClick() {

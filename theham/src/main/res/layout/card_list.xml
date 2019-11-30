@@ -63,6 +63,26 @@
                         android:text="애플파이"
                         android:textColor="#575757"
                         android:textSize="12.5sp" />
+
+                    <TextView
+                        android:id="@+id/item_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="6sp"
+                        android:text="애플파이"
+                        android:textColor="#575757"
+                        android:textSize="12.5sp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/item_tel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="6sp"
+                        android:text="애플파이"
+                        android:textColor="#575757"
+                        android:textSize="12.5sp"
+                        android:visibility="gone" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -74,7 +94,7 @@
                 android:layout_marginTop="5dp"
                 android:background="#a124"
                 android:scaleType="centerCrop"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
         </LinearLayout>
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -53,7 +55,6 @@ public class ImageScan extends AppCompatActivity {
     private Button mButton;
     private PhotoView photoView;
 
-
     Bitmap mBitmap;
     Bitmap mResult;
 
@@ -79,6 +80,8 @@ public class ImageScan extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_image_scan);
 
         // 6.0 마쉬멜로우 이상일 경우에는 권한 체크 후 권한 요청
@@ -123,6 +126,7 @@ public class ImageScan extends AppCompatActivity {
                         photoView.setImageBitmap(mResult);
 
 
+
                         mResultDialog.show();
                     }
 
@@ -140,12 +144,20 @@ public class ImageScan extends AppCompatActivity {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
-                        Intent intent = new Intent(ImageScan.this, CardInfo.class);
+
                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        mResult.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                        byte[] byteArray = stream.toByteArray();
-                        intent.putExtra("Scanning image", byteArray);
-                        startActivity(intent);
+                        Bitmap bitmap = ((BitmapDrawable) photoView.getDrawable()).getBitmap();
+
+                        float scale = (1024 / (float) bitmap.getWidth());
+                        int image_w = (int) (bitmap.getWidth() * scale);
+                        int image_h = (int) (bitmap.getHeight() * scale);
+                        Bitmap resize = Bitmap.createScaledBitmap(bitmap, image_w, image_h, true);
+                        resize.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                        CardInfo.byteArray = stream.toByteArray();
+
+                        CardInfo.getScannedImage();
+                        finish();
+
                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {

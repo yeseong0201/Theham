@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,10 +35,9 @@ import java.util.ArrayList;
 
 public class RecyclerFragment extends Fragment {
 
-    Bitmap mBitmap;
-    Bitmap mResult;
+    Bitmap bitmap;
 
-    ImageView null_image;
+    ImageView card;
 
     SwipeController swipeController = null;
 
@@ -74,7 +74,10 @@ public class RecyclerFragment extends Fragment {
 
         recyclerView = v.findViewById(R.id.recyclerview);
 
+        card = v.findViewById(R.id.card);
+
         recyclerView.setHasFixedSize(true);
+
 
         layoutManager = new LinearLayoutManager(mainActivity);
 
@@ -88,8 +91,7 @@ public class RecyclerFragment extends Fragment {
 
         cardList.size();
 
-        setupRecyclerView1();
-
+        setupRecyclerView();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,7 +149,7 @@ public class RecyclerFragment extends Fragment {
                             Toast.makeText(getContext(), "필수 작성 목록입니다.", Toast.LENGTH_SHORT).show();
                         } else {
 
-                            CardList list = new CardList(R.drawable.ic_person_black_24dp, R.drawable.card_image, get_user_name, get_user_division);
+                            CardList list = new CardList(R.drawable.ic_person_black_24dp, R.drawable.card_image, get_user_name, get_user_division, get_user_email, get_user_tel);
                             cardList.add(list);
 
                             cardAdapter.notifyItemInserted(cardList.size());
@@ -157,47 +159,86 @@ public class RecyclerFragment extends Fragment {
                             intent.putExtra("info_tel", get_user_tel);
                             intent.putExtra("info_email", get_user_email);
                             intent.putExtra("info_division", get_user_division);
+
+
                             startActivity(intent);
 
                             dialog.dismiss();
-
 
                         }
                     }
                 });
                 dialog.show();
+                getCardImage();
 
             }
         });
 
-
         return v;
+    }
+
+    public void getCardImage() {
+
+        // CardInfo 에서 bitmap 받기
+        if (bitmap != null) {
+            CardInfo.getScannedImage();
+            card.setImageBitmap(bitmap);
+        }
+
+//        Bundle extra = this.getArguments();
+//        if (extra != null) {
+//            extra = getArguments();
+//            Bitmap bitmap = extra.getParcelable("bitmap");
+//            card.setImageBitmap(bitmap);
+//            Toast.makeText(getActivity(), bitmap + "", Toast.LENGTH_SHORT).show();
+//        }
+
+
     }
 
     public void CardData() {
         cardList = new ArrayList<>();
-        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "asdf", "asdf"));
-        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "123", "asdf"));
-        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "456", "asdf"));
-        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "789", "asdf"));
-        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "000", "asdf"));
-        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "이예성", "asdf"));
-        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "김민준", "asdf"));
-        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "김현우", "asdf"));
+//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "asdf", "asdf"));
+//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "123", "asdf"));
+//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "456", "asdf"));
+//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "789", "asdf"));
+//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "000", "asdf"));
+//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "이예성", "asdf"));
+//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "김민준", "asdf"));
+//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "김현우", "asdf"));
 
     }
 
-    private void setupRecyclerView1() {
-
+    private void setupRecyclerView() {
 
         swipeController = new SwipeController(new SwipeControllerActions() {
+
             @Override
             public void onRightClicked(int position) {
-                cardList.remove(position);
+//                cardList.remove(position);
+//                cardAdapter.notifyItemRemoved(position);
+//                cardAdapter.notifyItemRangeChanged(position, cardAdapter.getItemCount());
 
-                cardAdapter.notifyItemRemoved(position);
-                cardAdapter.notifyItemRangeChanged(position, cardAdapter.getItemCount());
+                Intent intent = new Intent(getActivity(), CardInfo.class);
+
+                String putName = cardList.get(position).getItem_name();
+                String putDivision = cardList.get(position).getItem_division();
+                String putEmail = cardList.get(position).getItem_Email();
+                String putTel = cardList.get(position).getItem_tel();
+
+                intent.putExtra("putName", putName);
+                intent.putExtra("putDivision", putDivision);
+                intent.putExtra("putEmail", putEmail);
+                intent.putExtra("putTel", putTel);
+                startActivity(intent);
             }
+
+            @Override
+            public void onLeftClicked(int position) {
+
+                Log.d("position left", String.valueOf(position));
+            }
+
         });
 
         ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);

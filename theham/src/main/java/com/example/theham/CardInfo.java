@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,17 +20,24 @@ import androidx.appcompat.widget.Toolbar;
 public class CardInfo extends AppCompatActivity {
     Toolbar info_toolbar;
     TextView card_info_name, card_info_email, card_info_tel, card_info_division;
-    ImageView card_info_image;
+
+
+    public static ImageView card_info_image;
+    public static Bitmap bitmap;
+    public static byte[] byteArray;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_info);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         imageBtnClicked();
         customActionBars();
         getStrings();
-//        getScannedImage();
+        //    getScannedImage();
 
 
     }
@@ -60,16 +68,25 @@ public class CardInfo extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        String user_name = intent.getStringExtra("info_name");
-        String user_email = intent.getStringExtra("info_email");
-        String user_tel = intent.getStringExtra("info_tel");
-        String user_division = intent.getStringExtra("info_division");
+        String user_name = intent.getStringExtra("putName");
+        String user_email = intent.getStringExtra("putEmail");
+        String user_tel = intent.getStringExtra("putTel");
+        String user_division = intent.getStringExtra("putDivision");
 
         card_info_name.setText(user_name);
         card_info_email.setText(user_email);
         card_info_tel.setText(user_tel);
         card_info_division.setText(user_division);
 
+        String info_name = intent.getStringExtra("putName");
+        String info_email = intent.getStringExtra("putEmail");
+        String info_tel = intent.getStringExtra("putTel");
+        String info_division = intent.getStringExtra("putDivision");
+
+        card_info_name.setText(info_name);
+        card_info_email.setText(info_email);
+        card_info_tel.setText(info_tel);
+        card_info_division.setText(info_division);
 
     }
 
@@ -85,13 +102,17 @@ public class CardInfo extends AppCompatActivity {
         });
     }
 
-    public void getScannedImage() {
-        Intent intent = getIntent();
+    public static void getScannedImage() {
+        // ImageScan에서 받아오기
 
-        byte[] arr = intent.getByteArrayExtra("Scanning image");
-        Bitmap bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+        //  byteArray = CardInfo.byteArray;
+        bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
         card_info_image.setImageBitmap(bitmap);
+    }
 
+    public static void putScannedImage() {
+        // RecyclerFragment로 뿌려주기
+        getScannedImage();
 
     }
 
@@ -111,10 +132,20 @@ public class CardInfo extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.add:
 
-                finish();
 
+//                RecyclerFragment fm = new RecyclerFragment();
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelable("bitmap", bitmap);
+//                fm.setArguments(bundle);
+
+//                Intent intent = new Intent(CardInfo.this, RecyclerView.class);
+//                intent.putExtra("bitmap", bitmap);
+
+                finish();
 
         }
         return true;
     }
+
+
 }

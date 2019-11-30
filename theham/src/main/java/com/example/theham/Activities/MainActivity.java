@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Fragment> fragments;
     FragmentUtils fragmentUtils;
 
+    public static byte[] byteArray;
+
     ExchangeFragment exchangeFragment;
     RecyclerFragment recyclerFragment;
     // ScanFragment scanFragment;
