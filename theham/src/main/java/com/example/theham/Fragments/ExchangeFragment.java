@@ -2,24 +2,23 @@ package com.example.theham.Fragments;
 
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.example.theham.Activities.MainActivity;
 import com.example.theham.R;
+import com.kakao.kakaolink.v2.KakaoLinkResponse;
 import com.kakao.kakaolink.v2.KakaoLinkService;
+import com.kakao.message.template.LinkObject;
+import com.kakao.message.template.TextTemplate;
 import com.kakao.network.ErrorResult;
 import com.kakao.network.callback.ResponseCallback;
-import com.kakao.network.storage.ImageUploadResponse;
 import com.kakao.util.helper.log.Logger;
 
 import java.io.File;
@@ -30,7 +29,9 @@ import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ExchangeFragment extends Fragment {
@@ -58,8 +59,8 @@ public class ExchangeFragment extends Fragment {
         button = v.findViewById(R.id.btn);
 
         // imageSend();
-        // sendShare();
-        shareImage();
+        sendShare();
+        //shareImage();
 
         return v;
 
@@ -97,16 +98,14 @@ public class ExchangeFragment extends Fragment {
                 for (ResolveInfo info : resInfo) {
                     Intent shareIntent = (Intent) intent.clone();
 
-                    // File dirName = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/Download");
                     File dirName = new File(path + "/Capture" + day.format(date) + ".jpeg");
                     String file = path + "/Capture" + day.format(date) + ".jpeg";
                     File files = new File(dirName, file);
-                    Uri uri = FileProvider.getUriForFile(mainActivity.getApplicationContext(), "com.example.theham", files);
+//                    Uri uri = FileProvider.getUriForFile(mainActivity.getApplicationContext(), "com.example.theham", files);
                     shareIntent.setType("image/*");
                     shareIntent.putExtra(Intent.EXTRA_SUBJECT, "더 함");
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, "구글 http://www.google.com #");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, "https://firebasestorage.googleapis.com/v0/b/theham-3a483.appspot.com/o/%E1%84%86%E1%85%A7%E1%86%BC%E1%84%92%E1%85%A1%E1%86%B7%E1%84%89%E1%85%A1%E1%84%8C%E1%85%B5%E1%86%AB1.jpeg?alt=media&token=053df6ad-27c6-4cdb-b75c-b3cf3534d48b");
 
-                    shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + path + "/Capture" + day.format(date) + ".JPEG"));
                     shareIntent.setPackage(info.activityInfo.packageName);
                     shareIntentList.add(shareIntent);
                 }
@@ -124,94 +123,27 @@ public class ExchangeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-//                try {
-//                    KakaoLink link = KakaoLink.getKakaoLink(getActivity().getApplicationContext());
-//                    KakaoTalkLinkMessageBuilder builder = link.createKakaoTalkLinkMessageBuilder();
-//
-//                    builder.addText("명함 보내기");
-//                    builder.addAppButton("앱 실행하기");
-//                    link.sendMessage(builder, getContext());
-//
-//                } catch (KakaoParameterException e) {
-//                    e.printStackTrace();
-//                }
+                TextTemplate params = TextTemplate.newBuilder("더 함", LinkObject.newBuilder().setWebUrl("https://https://firebasestorage.googleapis.com/v0/b/theham-3a483.appspot.com/o/%E1%84%86%E1%85%A7%E1%86%BC%E1%84%92%E1%85%A1%E1%86%B7%E1%84%89%E1%85%A1%E1%84%8C%E1%85%B5%E1%86%AB1.jpeg?alt=media&token=053df6ad-27c6-4cdb-b75c-b3cf3534d48b")
+                        .setMobileWebUrl("https://https://firebasestorage.googleapis.com/v0/b/theham-3a483.appspot.com/o/%E1%84%86%E1%85%A7%E1%86%BC%E1%84%92%E1%85%A1%E1%86%B7%E1%84%89%E1%85%A1%E1%84%8C%E1%85%B5%E1%86%AB1.jpeg?alt=media&token=053df6ad-27c6-4cdb-b75c-b3cf3534d48b").build()).setButtonTitle("명함보").build();
 
-//                TextTemplate params = TextTemplate.newBuilder("더 함", LinkObject.newBuilder().setWebUrl("https://developers.kakao.com").setMobileWebUrl("https://developers.kakao.com").build()).setButtonTitle("This is button").build();
-//
-//                Map<String, String> serverCallbackArgs = new HashMap<String, String>();
-//                serverCallbackArgs.put("user_id", "${current_user_id}");
-//                serverCallbackArgs.put("product_id", "${shared_product_id}");
-//
-//                KakaoLinkService.getInstance().sendDefault(getContext(), params, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
-//                    @Override
-//                    public void onFailure(ErrorResult errorResult) {
-//                        Logger.e(errorResult.toString());
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(KakaoLinkResponse result) {
-//                        // 템플릿 밸리데이션과 쿼터 체크가 성공적으로 끝남. 톡에서 정상적으로 보내졌는지 보장은 할 수 없다. 전송 성공 유무는 서버콜백 기능을 이용하여야 한다.
-//                    }
-//                });
-                File imageFile = new File("path/of/image/file");
+                Map<String, String> serverCallbackArgs = new HashMap<String, String>();
+                serverCallbackArgs.put("user_id", "${current_user_id}");
+                serverCallbackArgs.put("product_id", "${shared_product_id}");
 
-                KakaoLinkService.getInstance().uploadImage(getContext(), false, new File("gs://theham-3a483.appspot.com/logo.png"), new ResponseCallback<ImageUploadResponse>() {
+                KakaoLinkService.getInstance().sendDefault(getContext(), params, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
                     @Override
                     public void onFailure(ErrorResult errorResult) {
                         Logger.e(errorResult.toString());
                     }
 
                     @Override
-                    public void onSuccess(ImageUploadResponse result) {
-                        Logger.d(result.getOriginal().getUrl());
+                    public void onSuccess(KakaoLinkResponse result) {
+                        // 템플릿 밸리데이션과 쿼터 체크가 성공적으로 끝남. 톡에서 정상적으로 보내졌는지 보장은 할 수 없다. 전송 성공 유무는 서버콜백 기능을 이용하여야 한다.
                     }
                 });
 
-
-//                FileOutputStream fos = null;
-//                SimpleDateFormat day = new SimpleDateFormat("yyyyMMddHHmmss");
-//                Date date = new Date();
-//                String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/더 함";
-//                File dirName = new File(path);  //디렉토리를 지정합니다.
-//                // String file = path + "/Capture" + day.format(date) + ".jpeg"; //공유할 이미지 파일 명
-//                String file = path + "/test1.jpeg"; //공유할 이미지 파일 명
-//                File files = new File(dirName, file); //image 파일의 경로를 설정합니다.
-//                Uri uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID, files);
-//
-//                // Uri mSaveImageUri = Uri.fromFile(files); //file의 경로를 uri로 변경합니다.
-//                Intent intent = new Intent(Intent.ACTION_SEND); //전송 메소드를 호출합니다. Intent.ACTION_SEND
-//                intent.setType("image/*"); //jpg 이미지를 공유 하기 위해 Type을 정의합니다.
-//                intent.putExtra(Intent.EXTRA_STREAM, R.drawable.card_image); //사진의 Uri를 가지고 옵니다.
-//                startActivity(Intent.createChooser(intent, "명함 보내기 ")); //Activity를 이용하여 호출 합니다.
             }
         });
-    }
-
-
-    public void imageSend() {
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-
-                intent.setType("image/*");
-
-                String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/더 함";
-                Uri photoUri = FileProvider.getUriForFile(getActivity(), getActivity().getPackageName() + ".provider", new File(path));
-                //File dirName = new File(path);  //디렉토리를 지정합니다.
-
-                // String file = path; //공유할 이미지 파일 명
-                // File files = new File(dirName, file); //image 파일의 경로를 설정합니다.
-                //  Uri uri = FileProvider.getUriForFile(getContext(), "com.example.theham.MainActivity", dirName);
-                intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///" + photoUri));
-
-                // intent.putExtra(Intent.EXTRA_STREAM, uri); //사진의 Uri를 가지고 옵니다.
-                Intent chooser = Intent.createChooser(intent, "명함 전송하기");
-                startActivity(chooser);
-            }
-        });
-
     }
 
 }

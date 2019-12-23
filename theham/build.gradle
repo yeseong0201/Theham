@@ -53,7 +53,6 @@ dependencies {
 
     implementation 'com.github.yukuku:ambilwarna:2.0.1'
 
-
     // 카카오 로그인 sdk를 사용하기 위해 필요.
     implementation group: 'com.kakao.sdk', name: 'usermgmt', version:  '1.15.1'
 
@@ -69,7 +68,6 @@ dependencies {
     implementation group: 'com.kakao.sdk', name: 'push', version:  '1.15.1'
 
     implementation project(path: ':opencv')
-
 
 }
 

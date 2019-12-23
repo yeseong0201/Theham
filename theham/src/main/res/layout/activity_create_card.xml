@@ -50,6 +50,7 @@
             android:layout_marginBottom="43dp"
             android:inputType="text"
             android:lineSpacingExtra="3sp"
+            android:maxLength="30"
             android:text="이름"
             android:textColor="#000000"
             android:textSize="15sp"
@@ -63,8 +64,9 @@
             android:layout_width="wrap_content"
             android:layout_height="21dp"
             android:layout_marginTop="1dp"
-
             android:lineSpacingExtra="3sp"
+
+            android:maxLength="30"
             android:text="직군"
             android:textColor="#000000"
             android:textSize="10sp"
@@ -86,8 +88,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:inputType="phone"
-
             android:lineSpacingExtra="3sp"
+
+            android:maxLength="30"
             android:text="tel"
             android:textColor="#000000"
             android:textSize="10sp"
@@ -97,10 +100,12 @@
         <TextView
             android:id="@+id/self_email"
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-
             android:lineSpacingExtra="3sp"
+
+            android:maxLength="30"
             android:text="email"
             android:textColor="#000000"
             android:textSize="10sp"
@@ -111,8 +116,10 @@
             android:id="@+id/self_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:layout_marginTop="3dp"
             android:lineSpacingExtra="3sp"
+            android:maxLength="30"
             android:text="address"
             android:textColor="#000000"
             android:textSize="10sp"
@@ -121,11 +128,12 @@
 
         <TextView
             android:id="@+id/self_name"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:lineSpacingExtra="3sp"
+
+            android:maxLength="30"
             android:text="company"
             android:textColor="#000000"
             android:textSize="10sp"
@@ -172,25 +180,25 @@
         <EditText
             android:id="@+id/company_name_edt"
 
-            android:lineSpacingExtra="3sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/dg_text_form"
             android:hint="  회사 이름"
             android:inputType="text"
+            android:lineSpacingExtra="3sp"
             android:textSize="20sp" />
 
         <EditText
             android:id="@+id/self_name_edt"
             android:layout_width="match_parent"
 
-            android:lineSpacingExtra="3sp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/dg_text_form"
             android:hint="  이름"
             android:inputType="text"
+            android:lineSpacingExtra="3sp"
             android:textSize="20sp" />
 
         <EditText
@@ -199,10 +207,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
 
-            android:lineSpacingExtra="3sp"
             android:background="@drawable/dg_text_form"
             android:hint="  직군"
             android:inputType="text"
+            android:lineSpacingExtra="3sp"
 
             android:textSize="20sp" />
 
@@ -211,12 +219,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:lineSpacingExtra="3sp"
             android:layout_marginTop="10dp"
             android:background="@drawable/dg_text_form"
             android:hint="  전화번호"
-
             android:inputType="phone"
+
+            android:lineSpacingExtra="3sp"
             android:textSize="20sp" />
 
         <EditText
@@ -228,8 +236,8 @@
             android:background="@drawable/dg_text_form"
             android:hint="  이메일"
 
-            android:lineSpacingExtra="3sp"
             android:inputType="textEmailAddress"
+            android:lineSpacingExtra="3sp"
             android:textSize="20sp" />
 
         <EditText
@@ -239,8 +247,8 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/dg_text_form"
             android:hint="  주소"
-            android:lineSpacingExtra="3sp"
             android:inputType="text"
+            android:lineSpacingExtra="3sp"
             android:textSize="20sp" />
 
         <Button
