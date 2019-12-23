@@ -2,6 +2,9 @@ package com.example.theham;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +43,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_list, parent, false);
         context = parent.getContext();
-        getPreferences();
+        //getPreferenceString();
         return new ItemViewHolder(view);
     }
 
@@ -73,7 +76,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
     }
 
     // 값 불러오기
-    private void getPreferences() {
+    private void getPreferenceString() {
         SharedPreferences prefName = context.getSharedPreferences("name", MODE_PRIVATE);
         SharedPreferences prefDivision = context.getSharedPreferences("division", MODE_PRIVATE);
         SharedPreferences prefEmail = context.getSharedPreferences("email", MODE_PRIVATE);
@@ -115,7 +118,17 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
 
                 @Override
                 public void onClick(View v) {
+                    SharedPreferences pref1 = context.getSharedPreferences("image", MODE_PRIVATE);
+                    String image = pref1.getString("imageString", "");
+                    Bitmap bitmap = StringtoBitmap(image);
+
+                    if (bitmap != null) {
+                        card.setImageBitmap(bitmap);
+
+                    }
+
                     int pos = getAdapterPosition();
+
                     if (pos != RecyclerView.NO_POSITION && visible_count % 2 != 0) {
                         listData.get(pos);
                         card.setVisibility(View.GONE);
@@ -129,6 +142,35 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
                 }
             });
         }
+    }
+
+//    // 값 불러오기
+//    private void getPreferences() {
+//        SharedPreferences pref1 = context.getSharedPreferences("image", MODE_PRIVATE);
+//        String image = pref1.getString("imageString", "");
+//        Bitmap bitmap = StringtoBitmap(image);
+//
+//        if (bitmap != null) {
+//            card.setImageBitmap(bitmap);
+//
+//        }
+//
+//        bitmap = null;
+//    }
+
+    // String 값을 Bitmap으로 전환하기
+    public Bitmap StringtoBitmap(String encodedString) {
+        try {
+            byte[] encodedByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodedByte, 0, encodedByte.length);
+            return bitmap;
+
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+
+        }
+
     }
 
 

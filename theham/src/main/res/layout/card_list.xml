@@ -36,8 +36,7 @@
                     android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_margin="4dp"
-                    android:backgroundTint="#5d99c6"
-                    android:src="@drawable/ic_person_black_24dp" />
+                    android:src="@drawable/ic_account" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -92,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginTop="5dp"
-                android:background="#a124"
+                android:background="#fffae0"
                 android:scaleType="centerCrop"
                 android:visibility="visible" />
 

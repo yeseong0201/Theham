@@ -59,6 +59,9 @@ public class CreateCardActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_card);
 
+
+
+
         btn = findViewById(R.id.cap_btn);
         capture_layout = findViewById(R.id.capture_layout);
 
@@ -279,9 +282,9 @@ public class CreateCardActivity extends AppCompatActivity implements View.OnClic
                 name_edt.setSelection(name_edt.length());
                 tel_edt.setSelection(tel_edt.length());
 
-
                 int totalTextLength = company_edt.getText().length() + name_edt.getText().length()
                         + tel_edt.getText().length() + email_edt.getText().length() + division_edt.getText().length() + address.getText().length();
+
 
                 company.setText("");
                 company.setText(company_edt.getText().toString());
@@ -343,11 +346,17 @@ public class CreateCardActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
 
-        //  savePreferences();
-        MakingFragment.getBitmapCardView();
-        MakingFragment.getPreferences();
+        if (company_edt.getText().length() <= 0 && name_edt.getText().length() <= 0 && tel_edt.getText().length() <= 0 && email_edt.getText().length() <= 0 &&
+                division_edt.getText().length() <= 0 && name_edt.getText().length() <= 0) {
+            Toast.makeText(CreateCardActivity.this, "정보를 입력해주세요.", Toast.LENGTH_SHORT).show();
+        } else {
 
-        finish();
+            //  savePreferences();
+            MakingFragment.getBitmapCardView();
+            MakingFragment.getPreferences();
+
+            finish();
+        }
 
     }
 

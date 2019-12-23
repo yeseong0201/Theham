@@ -157,7 +157,7 @@ public class RecyclerFragment extends Fragment {
                             CardList list = new CardList(R.drawable.ic_person_black_24dp, R.drawable.card_image, get_user_name, get_user_division, get_user_email, get_user_tel);
                             cardList.add(list);
 
-//                            savePreferences();
+                            //   savePreferences();
 
                             cardAdapter.notifyItemInserted(cardList.size());
                             cardAdapter.notifyDataSetChanged();

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,7 +35,6 @@ public class CardInfo extends AppCompatActivity {
     public static byte[] byteArray;
     public static SharedPreferences pref;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +50,7 @@ public class CardInfo extends AppCompatActivity {
         imageBtnClicked();
         customActionBars();
         getStrings();
-      //  getPreferences();
+        getPreferences();
 
     }
 
@@ -158,7 +158,6 @@ public class CardInfo extends AppCompatActivity {
         }
     }
 
-
     public int getOrientationOfImage(String filepath) {
         ExifInterface exif = null;
 
@@ -211,7 +210,6 @@ public class CardInfo extends AppCompatActivity {
         menuInflater.inflate(R.menu.card_info_menu, menu);
 
         return true;
-
     }
 
     @Override
@@ -219,9 +217,16 @@ public class CardInfo extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.add:
 
-             //   savePreferences();
+                if (bitmap != null) {
+                    savePreferences();
+                    finish();
 
-                finish();
+
+                }
+                else {
+                    Toast.makeText(this, "명함을 스캔해주세요.", Toast.LENGTH_SHORT).show();
+                }
+
 
         }
         return true;

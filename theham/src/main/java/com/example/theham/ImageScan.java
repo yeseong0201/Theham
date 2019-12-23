@@ -2,8 +2,10 @@ package com.example.theham;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -117,7 +120,6 @@ public class ImageScan extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
         actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
 
         mSelectionImageView = findViewById(R.id.polygonView);
 
@@ -151,6 +153,7 @@ public class ImageScan extends AppCompatActivity {
 
         mResultDialog = new MaterialDialog.Builder(this)
                 .title("Scan Result")
+                .titleColor(Color.parseColor("#534bae"))
                 .positiveText("Save")
                 .negativeText("Cancel")
                 .customView(R.layout.dialog_document_scan_result, false)
@@ -164,13 +167,15 @@ public class ImageScan extends AppCompatActivity {
                         float scale = (1024 / (float) bitmap.getWidth());
                         int image_w = (int) (bitmap.getWidth() * scale);
                         int image_h = (int) (bitmap.getHeight() * scale);
+
                         Bitmap resize = Bitmap.createScaledBitmap(bitmap, image_w, image_h, true);
                         resize.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                         CardInfo.byteArray = stream.toByteArray();
 
+
                         CardInfo.getScannedImage();
 
-                        //savePreferences();
+                        savePreferences();
 
                         finish();
 
@@ -227,6 +232,7 @@ public class ImageScan extends AppCompatActivity {
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
         } else if (id == R.id.action_camera) {
+
             sendTakePhotoIntent();
 
         }
@@ -234,15 +240,18 @@ public class ImageScan extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             Uri uri = data.getData();
 
             try {
+
                 mBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 mSelectionImageView.setImageBitmap(getResizedBitmap(mBitmap, MAX_HEIGHT));
                 List<PointF> points = findPoints();
@@ -250,7 +259,6 @@ public class ImageScan extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null && data.hasExtra("data")) {
@@ -264,7 +272,8 @@ public class ImageScan extends AppCompatActivity {
         }
     }
 
-    private int exifOrientationToDegrees(int exifOrientation) {
+
+    public int exifOrientationToDegrees(int exifOrientation) {
         if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
             return 90;
         } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
@@ -273,6 +282,27 @@ public class ImageScan extends AppCompatActivity {
             return 270;
         }
         return 0;
+    }
+
+
+    // 값 저장하기
+    private void savePreferences() {
+        // String image = BitmapToString(bitmap);
+        String image = BitmapToString(mBitmap);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("image", MODE_PRIVATE);
+        SharedPreferences.Editor editor;
+        editor = pref.edit();
+        editor.putString("imageString", image);
+        editor.commit();
+    }
+
+    // bitmap 문자열로 저장하기
+    public String BitmapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
     }
 
     private Bitmap rotate(Bitmap bitmap, float degree) {
@@ -286,7 +316,6 @@ public class ImageScan extends AppCompatActivity {
         // takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
     }
-
 
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
