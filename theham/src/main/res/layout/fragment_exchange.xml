@@ -1,59 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:gravity="center"
     android:orientation="vertical">
 
-
     <TextView
-        android:id="@+id/send"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="명함 보내기"
-        android:textColor="#1d1c1c"
-        android:textSize="18sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="20dp"
+        android:text="명함 주고받기"
+        android:textColor="#0E0B47"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/pc_layout"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/pc_layout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textcard"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageButton
-        android:id="@+id/ImageButton1"
-        android:layout_width="0dp"
-        android:layout_height="146dp"
-        android:layout_marginRight="50dp"
-        android:background="@drawable/card_send"
-        android:backgroundTint="#661184FF"
-        android:scaleType="centerCrop"
-        app:layout_constraintLeft_toLeftOf="@id/send"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/send" />
+        <ImageButton
+            android:id="@+id/btn"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#fffae0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/receive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:text="명함 받기"
-        android:textColor="#1d1c1c"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="@id/ImageButton1"
-        app:layout_constraintTop_toBottomOf="@id/ImageButton1" />
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_trade_mark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/self_tel"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/ImageButton2"
-        android:layout_width="0dp"
-        android:layout_height="146dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginRight="50dp"
-        android:background="#1A534bae"
-        app:layout_constraintLeft_toLeftOf="@id/receive"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/receive" />
+        <TextView
+            android:id="@+id/company_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="43dp"
+            android:inputType="text"
+            android:text="사용자"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/logo"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintTop_toTopOf="parent" />
 
+
+        <TextView
+            android:id="@+id/self_division"
+            android:layout_width="wrap_content"
+            android:layout_height="21dp"
+            android:layout_marginTop="1dp"
+
+            android:text="○ ○ ○ "
+            android:textColor="#000000"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintTop_toBottomOf="@+id/company_name" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="170dp"
+            android:layout_height="2dp"
+            android:layout_marginEnd="30dp"
+            android:background="#343434"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/self_division" />
+
+        <TextView
+            android:id="@+id/self_tel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:inputType="phone"
+            android:text="xxx-xxxx-xxxx"
+            android:textColor="#000000"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="@+id/view"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <TextView
+            android:id="@+id/self_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+
+            android:text="user@user.com"
+            android:textColor="#000000"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="@+id/self_tel"
+            app:layout_constraintTop_toBottomOf="@id/self_tel" />
+
+        <TextView
+            android:id="@+id/self_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="sunrin-gil apple-gu thehamsi "
+            android:textColor="#000000"
+            android:textSize="10sp"
+            app:layout_constraintStart_toStartOf="@+id/self_email"
+            app:layout_constraintTop_toBottomOf="@id/self_email" />
+
+        <TextView
+            android:id="@+id/self_name"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="(주) 더 함"
+            android:textColor="#000000"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--<LinearLayout-->
+
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal">-->
+
+
+    <!--<TextView-->
+
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="수신 받은 데이터 : " />-->
+
+    <!--<TextView-->
+
+    <!--android:id="@+id/textView_receive"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content" />-->
+
+
+    <!--</LinearLayout>-->
+
+
+    <!--<LinearLayout-->
+
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal">-->
+
+
+    <!--<TextView-->
+
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="송신 할 데이터 : " />-->
+
+
+    <!--<EditText-->
+
+    <!--android:id="@+id/editText_send"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:ems="10" />-->
+
+
+    <!--</LinearLayout>-->
+
+
+    <!--<Button-->
+
+    <!--android:id="@+id/button_send"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="데이터 송신" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+

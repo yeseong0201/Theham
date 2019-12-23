@@ -2,118 +2,160 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ang"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/ang"
     tools:context=".Activities.CreateCardActivity">
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/md_transparent"
+        android:drawableLeft="@drawable/ic_logo"
+        android:text="갤러리에 저장"
+        android:textColor="#534bae"
+        app:layout_constraintBottom_toTopOf="@id/capture_layout"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/capture_layout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="8dp"
-        android:background="@drawable/dg_round_card_view"
-        android:backgroundTint="#E9E3E4"
+        android:background="#fffae0"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/save_btn">
 
         <ImageView
             android:id="@+id/logo"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/logo_blue"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/self_tel"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/company_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:hint="회사 이름"
+            android:layout_marginBottom="43dp"
             android:inputType="text"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@id/logo"
-            app:layout_constraintStart_toEndOf="@+id/logo"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/self_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:lineSpacingExtra="3sp"
             android:text="이름"
             android:textColor="#000000"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/logo"
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            android:textSize="10sp"
-            app:layout_constraintStart_toEndOf="@+id/self_division"
-            app:layout_constraintTop_toBottomOf="@id/company_name" />
 
         <TextView
             android:id="@+id/self_division"
-
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_height="21dp"
+            android:layout_marginTop="1dp"
+
+            android:lineSpacingExtra="3sp"
             android:text="직군"
             android:textColor="#000000"
-
             android:textSize="10sp"
-            app:layout_constraintStart_toEndOf="@+id/logo"
-            app:layout_constraintTop_toBottomOf="@id/company_name" />
+            app:layout_constraintEnd_toEndOf="@+id/view"
+            app:layout_constraintTop_toBottomOf="@+id/company_name" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="170dp"
+            android:layout_height="2dp"
+            android:layout_marginEnd="30dp"
+            android:background="#343434"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/self_division" />
 
         <TextView
             android:id="@+id/self_tel"
             android:layout_width="wrap_content"
-
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:inputType="phone"
-            android:text="전화번호"
+
+            android:lineSpacingExtra="3sp"
+            android:text="tel"
             android:textColor="#000000"
             android:textSize="10sp"
-            app:layout_constraintStart_toEndOf="@+id/logo"
-            app:layout_constraintTop_toBottomOf="@id/self_name" />
+            app:layout_constraintStart_toStartOf="@+id/view"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <TextView
             android:id="@+id/self_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
 
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+            android:lineSpacingExtra="3sp"
             android:text="email"
             android:textColor="#000000"
-
             android:textSize="10sp"
-            app:layout_constraintStart_toEndOf="@+id/logo"
+            app:layout_constraintStart_toStartOf="@+id/self_tel"
             app:layout_constraintTop_toBottomOf="@id/self_tel" />
 
         <TextView
             android:id="@+id/self_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-
+            android:layout_marginTop="3dp"
+            android:lineSpacingExtra="3sp"
             android:text="address"
             android:textColor="#000000"
-
             android:textSize="10sp"
-            app:layout_constraintStart_toEndOf="@+id/logo"
+            app:layout_constraintStart_toStartOf="@+id/self_email"
             app:layout_constraintTop_toBottomOf="@id/self_email" />
+
+        <TextView
+            android:id="@+id/self_name"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:lineSpacingExtra="3sp"
+            android:text="company"
+            android:textColor="#000000"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/chooseColor"
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/md_transparent"
+        android:drawableLeft="@drawable/ic_color_picker"
         android:text="색 선택"
+        android:textColor="#534bae"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/capture_layout" />
+
+    <Button
+        android:id="@+id/chooseLogo"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/md_transparent"
+        android:drawableLeft="@drawable/ic_favorite_black_24dp"
+        android:text="로고 선택"
+        android:textColor="#534bae"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/capture_layout" />
 
     <LinearLayout
@@ -121,22 +163,33 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/chooseColor">
+
+        app:layout_constraintBottom_toTopOf="@+id/cap_btn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chooseLogo">
 
         <EditText
             android:id="@+id/company_name_edt"
+
+            android:lineSpacingExtra="3sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/call_24_px"
-            android:hint="회사 이름"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/dg_text_form"
+            android:hint="  회사 이름"
             android:inputType="text"
             android:textSize="20sp" />
 
         <EditText
             android:id="@+id/self_name_edt"
             android:layout_width="match_parent"
+
+            android:lineSpacingExtra="3sp"
             android:layout_height="wrap_content"
-            android:hint="이름"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/dg_text_form"
+            android:hint="  이름"
             android:inputType="text"
             android:textSize="20sp" />
 
@@ -144,7 +197,11 @@
             android:id="@+id/self_division_edt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="직군"
+            android:layout_marginTop="10dp"
+
+            android:lineSpacingExtra="3sp"
+            android:background="@drawable/dg_text_form"
+            android:hint="  직군"
             android:inputType="text"
 
             android:textSize="20sp" />
@@ -153,15 +210,25 @@
             android:id="@+id/self_tel_edt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="전화번호"
+
+            android:lineSpacingExtra="3sp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/dg_text_form"
+            android:hint="  전화번호"
+
             android:inputType="phone"
             android:textSize="20sp" />
 
         <EditText
+
             android:id="@+id/self_email_edt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="이메일"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/dg_text_form"
+            android:hint="  이메일"
+
+            android:lineSpacingExtra="3sp"
             android:inputType="textEmailAddress"
             android:textSize="20sp" />
 
@@ -169,7 +236,10 @@
             android:id="@+id/self_address_edt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="주소"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/dg_text_form"
+            android:hint="  주소"
+            android:lineSpacingExtra="3sp"
             android:inputType="text"
             android:textSize="20sp" />
 
@@ -177,16 +247,21 @@
             android:id="@+id/set_text_change"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="변경사항 저장" />
-
+            android:layout_marginTop="10dp"
+            android:background="@drawable/dg_save_btn"
+            android:text="변경사항 저장"
+            android:textColor="#534bae" />
     </LinearLayout>
+
 
     <Button
         android:id="@+id/cap_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/dg_button_stroke_radius"
         android:text="명함 저장하기"
+        android:textColor="#FFF"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

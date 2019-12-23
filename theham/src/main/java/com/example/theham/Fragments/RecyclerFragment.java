@@ -1,6 +1,7 @@
 package com.example.theham.Fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -32,6 +33,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class RecyclerFragment extends Fragment {
 
@@ -45,6 +48,11 @@ public class RecyclerFragment extends Fragment {
 
     RecyclerView recyclerView;
 
+
+    String get_user_name;
+    String get_user_tel;
+    String get_user_email;
+    String get_user_division;
 
     RecyclerView.LayoutManager layoutManager;
 
@@ -93,6 +101,13 @@ public class RecyclerFragment extends Fragment {
 
         setupRecyclerView();
 
+        fabClicked();
+
+
+        return v;
+    }
+
+    public void fabClicked() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,15 +116,6 @@ public class RecyclerFragment extends Fragment {
                 View view = LayoutInflater.from(getContext())
                         .inflate(R.layout.card_dialog, null, false);
                 builder.setView(view);
-
-                //   ImageButton set_user_card = view.findViewById(R.id.select_scan_mode);
-
-//                set_user_card.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        startActivity(new Intent(getContext().getApplicationContext(), ImageScan.class));
-//                    }
-//                });
 
                 final EditText set_user_name = view.findViewById(R.id.user_set_name);
                 final EditText set_user_tel = view.findViewById(R.id.user_set_tel);
@@ -120,7 +126,6 @@ public class RecyclerFragment extends Fragment {
                 set_user_tel.setInputType(InputType.TYPE_CLASS_NUMBER);
                 set_user_tel.setInputType(InputType.TYPE_CLASS_NUMBER);
                 set_user_email.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-
 
                 final Button cancel_btn = view.findViewById(R.id.cancel_btn);
                 Button add_btn = view.findViewById(R.id.add_btn);
@@ -140,10 +145,10 @@ public class RecyclerFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
 
-                        String get_user_name = set_user_name.getText().toString();
-                        String get_user_tel = set_user_tel.getText().toString();
-                        String get_user_email = set_user_email.getText().toString();
-                        String get_user_division = set_user_division.getText().toString();
+                        get_user_name = set_user_name.getText().toString();
+                        get_user_tel = set_user_tel.getText().toString();
+                        get_user_email = set_user_email.getText().toString();
+                        get_user_division = set_user_division.getText().toString();
 
                         if (get_user_name.length() <= 0 || get_user_division.length() <= 0 || get_user_email.length() <= 0 || get_user_tel.length() <= 0) {
                             Toast.makeText(getContext(), "필수 작성 목록입니다.", Toast.LENGTH_SHORT).show();
@@ -152,14 +157,16 @@ public class RecyclerFragment extends Fragment {
                             CardList list = new CardList(R.drawable.ic_person_black_24dp, R.drawable.card_image, get_user_name, get_user_division, get_user_email, get_user_tel);
                             cardList.add(list);
 
+//                            savePreferences();
+
                             cardAdapter.notifyItemInserted(cardList.size());
+                            cardAdapter.notifyDataSetChanged();
 
                             Intent intent = new Intent(getActivity().getApplicationContext(), CardInfo.class);
                             intent.putExtra("info_name", get_user_name);
                             intent.putExtra("info_tel", get_user_tel);
                             intent.putExtra("info_email", get_user_email);
                             intent.putExtra("info_division", get_user_division);
-
 
                             startActivity(intent);
 
@@ -173,9 +180,30 @@ public class RecyclerFragment extends Fragment {
 
             }
         });
-
-        return v;
     }
+
+    // 값 저장하기
+    private void savePreferences() {
+
+        SharedPreferences prefN = mainActivity.getSharedPreferences("name", MODE_PRIVATE);
+        SharedPreferences prefD = mainActivity.getSharedPreferences("division", MODE_PRIVATE);
+        SharedPreferences prefE = mainActivity.getSharedPreferences("email", MODE_PRIVATE);
+        SharedPreferences prefT = mainActivity.getSharedPreferences("tel", MODE_PRIVATE);
+        SharedPreferences.Editor editor1, editor2, editor3, editor4;
+        editor1 = prefN.edit();
+        editor2 = prefD.edit();
+        editor3 = prefE.edit();
+        editor4 = prefT.edit();
+        editor1.putString("nameString", get_user_name);
+        editor2.putString("divisionString", get_user_division);
+        editor3.putString("emailString", get_user_email);
+        editor4.putString("telString", get_user_tel);
+        editor1.commit();
+        editor2.commit();
+        editor3.commit();
+        editor4.commit();
+    }
+
 
     public void getCardImage() {
 
@@ -185,28 +213,11 @@ public class RecyclerFragment extends Fragment {
             card.setImageBitmap(bitmap);
         }
 
-//        Bundle extra = this.getArguments();
-//        if (extra != null) {
-//            extra = getArguments();
-//            Bitmap bitmap = extra.getParcelable("bitmap");
-//            card.setImageBitmap(bitmap);
-//            Toast.makeText(getActivity(), bitmap + "", Toast.LENGTH_SHORT).show();
-//        }
-
-
     }
+
 
     public void CardData() {
         cardList = new ArrayList<>();
-//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "asdf", "asdf"));
-//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "123", "asdf"));
-//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "456", "asdf"));
-//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "789", "asdf"));
-//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "000", "asdf"));
-//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "이예성", "asdf"));
-//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "김민준", "asdf"));
-//        cardList.add(new CardList(R.drawable.ic_person_black_24dp, R.drawable.ic_person_black_24dp, "김현우", "asdf"));
-
     }
 
     private void setupRecyclerView() {

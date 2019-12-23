@@ -10,21 +10,134 @@
         android:id="@+id/textcard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="내 명함"
+        android:layout_marginBottom="8dp"
+        android:text="나의 명함"
+        android:textColor="#0E0B47"
         android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="@+id/PersonalCard"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/PersonalCard"
+        app:layout_constraintStart_toStartOf="@+id/PersonalCard" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/PersonalCard"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_margin="10dp"
-        android:src="@drawable/dg_null_card"
-        app:layout_constraintRight_toLeftOf="parent"
+        android:layout_margin="5dp"
+        android:background="#1A534BAE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textcard" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--<androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--android:id="@+id/pc_layout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="200dp"-->
+    <!--android:layout_margin="8dp"-->
+    <!--android:orientation="vertical"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/textcard"-->
+    <!--app:layout_constraintTop_toTopOf="parent">-->
+
+
+    <!--<ImageView-->
+    <!--android:id="@+id/logo"-->
+    <!--android:layout_width="100dp"-->
+    <!--android:layout_height="100dp"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/self_tel"-->
+    <!--app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/company_name"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:layout_marginBottom="43dp"-->
+    <!--android:inputType="text"-->
+    <!--android:text="이름"-->
+    <!--android:textColor="#000000"-->
+    <!--android:textSize="15sp"-->
+    <!--app:layout_constraintBottom_toBottomOf="@id/logo"-->
+    <!--app:layout_constraintEnd_toEndOf="@+id/view"-->
+    <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+
+    <!--<TextView-->
+    <!--android:id="@+id/self_division"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="21dp"-->
+    <!--android:layout_marginTop="1dp"-->
+
+    <!--android:text="직군"-->
+    <!--android:textColor="#000000"-->
+    <!--android:textSize="10sp"-->
+    <!--app:layout_constraintEnd_toEndOf="@+id/view"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/company_name" />-->
+
+    <!--<View-->
+    <!--android:id="@+id/view"-->
+    <!--android:layout_width="170dp"-->
+    <!--android:layout_height="2dp"-->
+    <!--android:layout_marginEnd="30dp"-->
+    <!--android:background="#343434"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/self_division" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/self_tel"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:inputType="phone"-->
+    <!--android:text="tel"-->
+    <!--android:textColor="#000000"-->
+    <!--android:textSize="10sp"-->
+    <!--app:layout_constraintStart_toStartOf="@+id/view"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/view" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/self_email"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="3dp"-->
+
+    <!--android:text="email"-->
+    <!--android:textColor="#000000"-->
+    <!--android:textSize="10sp"-->
+    <!--app:layout_constraintStart_toStartOf="@+id/self_tel"-->
+    <!--app:layout_constraintTop_toBottomOf="@id/self_tel" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/self_address"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="3dp"-->
+    <!--android:text="address"-->
+    <!--android:textColor="#000000"-->
+    <!--android:textSize="10sp"-->
+    <!--app:layout_constraintStart_toStartOf="@+id/self_email"-->
+    <!--app:layout_constraintTop_toBottomOf="@id/self_email" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/self_name"-->
+
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_margin="10dp"-->
+    <!--android:text="company"-->
+    <!--android:textColor="#000000"-->
+    <!--android:textSize="10sp"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintLeft_toLeftOf="parent" />-->
+
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_mk"

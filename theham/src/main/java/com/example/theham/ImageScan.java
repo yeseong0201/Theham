@@ -4,11 +4,14 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -38,11 +41,14 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import timber.log.Timber;
@@ -55,6 +61,13 @@ public class ImageScan extends AppCompatActivity {
     private Button mButton;
     private PhotoView photoView;
 
+    private final int CAMERA_CODE = 1111;
+    private final int GALLERY_CODE = 1112;
+
+    private Uri photoUri;
+    private String currentPhotoPath;//실제 사진 파일 경로
+    String mImageCaptureName;//이미지 이름
+
     Bitmap mBitmap;
     Bitmap mResult;
 
@@ -66,6 +79,9 @@ public class ImageScan extends AppCompatActivity {
     private static final int MAX_HEIGHT = 500;
 
     private int PICK_IMAGE_REQUEST = 1;
+
+    private static final int REQUEST_IMAGE_CAPTURE = 672;
+    private String imageFilePath;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -93,7 +109,6 @@ public class ImageScan extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
         }
-
 
         toolbar = findViewById(R.id.toolbar_scan);
         setSupportActionBar(toolbar);
@@ -125,8 +140,6 @@ public class ImageScan extends AppCompatActivity {
                         photoView = mResultDialog.getCustomView().findViewById(R.id.imageView);
                         photoView.setImageBitmap(mResult);
 
-
-
                         mResultDialog.show();
                     }
 
@@ -156,6 +169,9 @@ public class ImageScan extends AppCompatActivity {
                         CardInfo.byteArray = stream.toByteArray();
 
                         CardInfo.getScannedImage();
+
+                        //savePreferences();
+
                         finish();
 
                     }
@@ -186,13 +202,11 @@ public class ImageScan extends AppCompatActivity {
         initOpenCV();
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_main_menu, menu);
-
         return true;
 
     }
@@ -202,7 +216,6 @@ public class ImageScan extends AppCompatActivity {
         super.onResume();
         initOpenCV();
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -214,9 +227,7 @@ public class ImageScan extends AppCompatActivity {
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
         } else if (id == R.id.action_camera) {
-
-            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(cameraIntent, 1);
+            sendTakePhotoIntent();
 
         }
 
@@ -241,7 +252,55 @@ public class ImageScan extends AppCompatActivity {
             }
 
         }
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null && data.hasExtra("data")) {
+
+            mBitmap = (Bitmap) data.getExtras().get("data");
+            if (mBitmap != null) {
+                mSelectionImageView.setImageBitmap(getResizedBitmap(mBitmap, MAX_HEIGHT));
+                List<PointF> points = findPoints();
+                mSelectionImageView.setPoints(points);
+            }
+        }
     }
+
+    private int exifOrientationToDegrees(int exifOrientation) {
+        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
+            return 90;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
+            return 180;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
+            return 270;
+        }
+        return 0;
+    }
+
+    private Bitmap rotate(Bitmap bitmap, float degree) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degree);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+    }
+
+    private void sendTakePhotoIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+    }
+
+
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "TEST_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,      /* prefix */
+                ".jpg",         /* suffix */
+                storageDir          /* directory */
+        );
+        imageFilePath = image.getAbsolutePath();
+        return image;
+    }
+
 
     /**
      * Attempt to load OpenCV via statically compiled libraries.  If they are not found, then load

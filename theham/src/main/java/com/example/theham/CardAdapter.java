@@ -1,5 +1,7 @@
 package com.example.theham;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder> {
 
@@ -24,6 +28,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
 
     private ArrayList<CardList> listData;
 
+    private Context context;
+
 
     public CardAdapter(ArrayList<CardList> cardList) {
         this.listData = cardList;
@@ -33,12 +39,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_list, parent, false);
+        context = parent.getContext();
+        getPreferences();
         return new ItemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         if (holder != null) {
+
             holder.card.setImageResource(listData.get(position).getCard());
             holder.item_profile.setImageResource(listData.get(position).getDrawableId());
             holder.item_name.setText(listData.get(position).getItem_name());
@@ -46,8 +55,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
             holder.item_email.setText(listData.get(position).getItem_Email());
             holder.item_tel.setText(listData.get(position).getItem_tel());
 
-            // changeVisibility();
+            SharedPreferences prefName = context.getSharedPreferences("name", MODE_PRIVATE);
+            SharedPreferences prefDivision = context.getSharedPreferences("division", MODE_PRIVATE);
+            SharedPreferences prefEmail = context.getSharedPreferences("email", MODE_PRIVATE);
+            SharedPreferences prefTel = context.getSharedPreferences("tel", MODE_PRIVATE);
 
+            String name = prefName.getString("nameString", "");
+            String division = prefDivision.getString("divisionString", "");
+            String email = prefEmail.getString("emailString", "");
+            String tel = prefTel.getString("telString", "");
 
             if (isItemSelected(position)) {
                 holder.card.setVisibility(View.VISIBLE);
@@ -56,6 +72,20 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
 
     }
 
+    // 값 불러오기
+    private void getPreferences() {
+        SharedPreferences prefName = context.getSharedPreferences("name", MODE_PRIVATE);
+        SharedPreferences prefDivision = context.getSharedPreferences("division", MODE_PRIVATE);
+        SharedPreferences prefEmail = context.getSharedPreferences("email", MODE_PRIVATE);
+        SharedPreferences prefTel = context.getSharedPreferences("tel", MODE_PRIVATE);
+
+        String name = prefName.getString("nameString", "");
+        String division = prefDivision.getString("divisionString", "");
+        String email = prefEmail.getString("emailString", "");
+        String tel = prefTel.getString("telString", "");
+
+
+    }
 
     @Override
     public int getItemCount() {
@@ -67,7 +97,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
         private ImageView item_profile, card;
         private TextView item_name, item_division, item_email, item_tel;
 
-
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -78,11 +107,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
             item_email = itemView.findViewById(R.id.item_email);
             item_tel = itemView.findViewById(R.id.item_tel);
 
-
             if (listData.size() == 0) {
 
             }
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
 
@@ -97,15 +124,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
                     } else if (visible_count % 2 == 0) {
                         card.setVisibility(View.VISIBLE);
                         visible_count++;
+
                     }
-
-
                 }
             });
         }
-
-
     }
+
 
     private boolean isItemSelected(int position) {
         return selectedItems.get(position, false);
@@ -122,31 +147,4 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
 
         selectedItems.clear();
     }
-
-
-//    private void changeVisibility(final boolean isExpanded) {
-//        // height 값을 dp로 지정해서 넣고싶으면 아래 소스를 이용
-//        int dpValue = 150;
-//        float d = context.getResources().getDisplayMetrics().density;
-//        int height = (int) (dpValue * d);
-//
-//        // ValueAnimator.ofInt(int... values)는 View가 변할 값을 지정, 인자는 int 배열
-//        ValueAnimator va = isExpanded ? ValueAnimator.ofInt(0, height) : ValueAnimator.ofInt(height, 0);
-//        // Animation이 실행되는 시간, n/1000초
-//        va.setDuration(600);
-//        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//            @Override
-//            public void onAnimationUpdate(ValueAnimator animation) {
-//                // value는 height 값
-//                int value = (int) animation.getAnimatedValue();
-//                // imageView의 높이 변경
-//                imageView2.getLayoutParams().height = value;
-//                imageView2.requestLayout();
-//                // imageView가 실제로 사라지게하는 부분
-//                imageView2.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-//            }
-//        });
-//        // Animation start
-//        va.start();
-//    }
 }

@@ -1,4 +1,5 @@
-package com.example.theham;
+package com.example.theham.Activities;
+
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -7,388 +8,255 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.theham.R;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import static android.app.Activity.RESULT_OK;
-
 public class BluetoothActivity extends AppCompatActivity {
-    private static final int REQUEST_ENABLE_BT = 10; // 블루투스 활성화 상태
+    TextView mTvBluetoothStatus;
+    TextView mTvReceiveData;
+    TextView mTvSendData;
+    Button mBtnBluetoothOn;
+    Button mBtnBluetoothOff;
+    Button mBtnConnect;
+    Button mBtnSendData;
 
-    private BluetoothAdapter bluetoothAdapter; // 블루투스 어댑터
+    BluetoothAdapter mBluetoothAdapter;
+    Set<BluetoothDevice> mPairedDevices;
+    List<String> mListPairedDevices;
 
-    private Set<BluetoothDevice> devices; // 블루투스 디바이스 데이터 셋
+    Handler mBluetoothHandler;
+    ConnectedBluetoothThread mThreadConnectedBluetooth;
+    BluetoothDevice mBluetoothDevice;
+    BluetoothSocket mBluetoothSocket;
 
-    private BluetoothDevice bluetoothDevice; // 블루투스 디바이스
-
-    private BluetoothSocket bluetoothSocket = null; // 블루투스 소켓
-
-    private OutputStream outputStream = null; // 블루투스에 데이터를 출력하기 위한 출력 스트림
-
-    private InputStream inputStream = null; // 블루투스에 데이터를 입력하기 위한 입력 스트림
-
-    private Thread workerThread = null; // 문자열 수신에 사용되는 쓰레드
-
-    private byte[] readBuffer; // 수신 된 문자열을 저장하기 위한 버퍼
-
-    private int readBufferPosition; // 버퍼 내 문자 저장 위치
-
-
-    private TextView textViewReceive; // 수신 된 데이터를 표시하기 위한 텍스트 뷰
-
-    private EditText editTextSend; // 송신 할 데이터를 작성하기 위한 에딧 텍스트
-
-    private ImageButton buttonSend; // 송신하기 위한 버튼
-
-    int pariedDeviceCount;
+    final static int BT_REQUEST_ENABLE = 1;
+    final static int BT_MESSAGE_READ = 2;
+    final static int BT_CONNECTING_STATUS = 3;
+    // final static UUID BT_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    final static UUID BT_UUID = UUID.fromString("8CE255C0-200A-11E0-AC64-0800200C9A66");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_card_info);
+        setContentView(R.layout.activity_bluetooth);
 
-        textViewReceive = findViewById(R.id.textView_receive);
-        editTextSend = findViewById(R.id.editText_send);
-        buttonSend = findViewById(R.id.button_send);
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter(); // 블루투스 어댑터를 디폴트 어댑터로 설정
-        sendBtnClicked();
-        if (bluetoothAdapter == null) { // 디바이스가 블루투스를 지원하지 않을 때
+        mTvBluetoothStatus = (TextView) findViewById(R.id.tvBluetoothStatus);
+        mTvReceiveData = (TextView) findViewById(R.id.tvReceiveData);
+        mTvSendData = (EditText) findViewById(R.id.tvSendData);
+        mBtnBluetoothOn = (Button) findViewById(R.id.btnBluetoothOn);
+        mBtnBluetoothOff = (Button) findViewById(R.id.btnBluetoothOff);
+        mBtnConnect = (Button) findViewById(R.id.btnConnect);
+        mBtnSendData = (Button) findViewById(R.id.btnSendData);
 
-            // 여기에 처리 할 코드를 작성하세요.
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        } else { // 디바이스가 블루투스를 지원 할 때
 
-            if (bluetoothAdapter.isEnabled()) { // 블루투스가 활성화 상태 (기기에 블루투스가 켜져있음)
+        mBtnBluetoothOn.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bluetoothOn();
+            }
+        });
+        mBtnBluetoothOff.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bluetoothOff();
+            }
+        });
+        mBtnConnect.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listPairedDevices();
+            }
+        });
+        mBtnSendData.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mThreadConnectedBluetooth != null) {
+                    mThreadConnectedBluetooth.write(mTvSendData.getText().toString());
+                    mTvSendData.setText("");
+                }
+            }
+        });
+        mBluetoothHandler = new Handler() {
+            public void handleMessage(android.os.Message msg) {
+                if (msg.what == BT_MESSAGE_READ) {
+                    String readMessage = null;
+                    try {
+                        readMessage = new String((byte[]) msg.obj, "UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    mTvReceiveData.setText(readMessage);
+                }
+            }
+        };
+    }
 
-                selectBluetoothDevice(); // 블루투스 디바이스 선택 함수 호출
-
-            } else { // 블루투스가 비 활성화 상태 (기기에 블루투스가 꺼져있음)
-
-                // 블루투스를 활성화 하기 위한 다이얼로그 출력
-
-                Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-
-                // 선택한 값이 onActivityResult 함수에서 콜백된다.
-
-                startActivityForResult(intent, REQUEST_ENABLE_BT);
+    void bluetoothOn() {
+        if (mBluetoothAdapter == null) {
+            Toast.makeText(getApplicationContext(), "블루투스를 지원하지 않는 기기입니다.", Toast.LENGTH_LONG).show();
+        } else {
+            if (mBluetoothAdapter.isEnabled()) {
+                Toast.makeText(getApplicationContext(), "블루투스가 이미 활성화 되어 있습니다.", Toast.LENGTH_LONG).show();
+                mTvBluetoothStatus.setText("활성화");
+            } else {
+                Toast.makeText(getApplicationContext(), "블루투스가 활성화 되어 있지 않습니다.", Toast.LENGTH_LONG).show();
+                Intent intentBluetoothEnable = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(intentBluetoothEnable, BT_REQUEST_ENABLE);
             }
         }
     }
 
+    void bluetoothOff() {
+        if (mBluetoothAdapter.isEnabled()) {
+            mBluetoothAdapter.disable();
+            Toast.makeText(getApplicationContext(), "블루투스가 비활성화 되었습니다.", Toast.LENGTH_SHORT).show();
+            mTvBluetoothStatus.setText("비활성화");
+        } else {
+            Toast.makeText(getApplicationContext(), "블루투스가 이미 비활성화 되어 있습니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
-
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-
-
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-
-            case REQUEST_ENABLE_BT:
-
-                if (requestCode == RESULT_OK) { // '사용'을 눌렀을 때
-
-                    selectBluetoothDevice(); // 블루투스 디바이스 선택 함수 호출
-
-                } else { // '취소'를 눌렀을 때
-
-                    // 여기에 처리 할 코드를 작성하세요.
-
+            case BT_REQUEST_ENABLE:
+                if (resultCode == RESULT_OK) { // 블루투스 활성화를 확인을 클릭하였다면
+                    Toast.makeText(getApplicationContext(), "블루투스 활성화", Toast.LENGTH_LONG).show();
+                    mTvBluetoothStatus.setText("활성화");
+                } else if (resultCode == RESULT_CANCELED) { // 블루투스 활성화를 취소를 클릭하였다면
+                    Toast.makeText(getApplicationContext(), "취소", Toast.LENGTH_LONG).show();
+                    mTvBluetoothStatus.setText("비활성화");
                 }
-
                 break;
-
         }
-
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void selectBluetoothDevice() {
+    void listPairedDevices() {
+        if (mBluetoothAdapter.isEnabled()) {
+            mPairedDevices = mBluetoothAdapter.getBondedDevices();
 
-        // 이미 페어링 되어있는 블루투스 기기를 찾습니다.
+            if (mPairedDevices.size() > 0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("장치 선택");
 
-        devices = bluetoothAdapter.getBondedDevices();
-
-        // 페어링 된 디바이스의 크기를 저장
-
-        pariedDeviceCount = devices.size();
-
-        // 페어링 되어있는 장치가 없는 경우
-
-        if (pariedDeviceCount == 0) {
-
-            // 페어링을 하기위한 함수 호출
-
-        }
-
-        // 페어링 되어있는 장치가 있는 경우
-
-        else {
-
-            // 디바이스를 선택하기 위한 다이얼로그 생성
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-            builder.setTitle("페어링 되어있는 블루투스 디바이스 목록");
-
-            // 페어링 된 각각의 디바이스의 이름과 주소를 저장
-
-            List<String> list = new ArrayList<>();
-
-            // 모든 디바이스의 이름을 리스트에 추가
-
-            for (BluetoothDevice bluetoothDevice : devices) {
-
-                list.add(bluetoothDevice.getName());
-
-            }
-
-            list.add("취소");
-
-
-            // List를 CharSequence 배열로 변경
-
-            final CharSequence[] charSequences = list.toArray(new CharSequence[list.size()]);
-
-            list.toArray(new CharSequence[list.size()]);
-
-
-            // 해당 아이템을 눌렀을 때 호출 되는 이벤트 리스너
-
-            builder.setItems(charSequences, new DialogInterface.OnClickListener() {
-
-                @Override
-
-                public void onClick(DialogInterface dialog, int which) {
-
-                    // 해당 디바이스와 연결하는 함수 호출
-
-                    connectDevice(charSequences[which].toString());
-
+                mListPairedDevices = new ArrayList<String>();
+                for (BluetoothDevice device : mPairedDevices) {
+                    mListPairedDevices.add(device.getName());
+                    //mListPairedDevices.add(device.getName() + "\n" + device.getAddress());
                 }
+                final CharSequence[] items = mListPairedDevices.toArray(new CharSequence[mListPairedDevices.size()]);
+                mListPairedDevices.toArray(new CharSequence[mListPairedDevices.size()]);
 
-            });
-
-
-            // 뒤로가기 버튼 누를 때 창이 안닫히도록 설정
-
-            builder.setCancelable(false);
-
-            // 다이얼로그 생성
-
-            AlertDialog alertDialog = builder.create();
-
-            alertDialog.show();
-
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        connectSelectedDevice(items[item].toString());
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+            } else {
+                Toast.makeText(getApplicationContext(), "페어링된 장치가 없습니다.", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "블루투스가 비활성화 되어 있습니다.", Toast.LENGTH_SHORT).show();
         }
-
     }
 
-    public void connectDevice(String deviceName) {
-
-        // 페어링 된 디바이스들을 모두 탐색
-
-        for (BluetoothDevice tempDevice : devices) {
-
-            // 사용자가 선택한 이름과 같은 디바이스로 설정하고 반복문 종료
-
-            if (deviceName.equals(tempDevice.getName())) {
-
-                bluetoothDevice = tempDevice;
-
+    void connectSelectedDevice(String selectedDeviceName) {
+        for (BluetoothDevice tempDevice : mPairedDevices) {
+            if (selectedDeviceName.equals(tempDevice.getName())) {
+                mBluetoothDevice = tempDevice;
                 break;
-
             }
-
         }
-
-        // UUID 생성
-
-        UUID uuid = java.util.UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
-
-        // Rfcomm 채널을 통해 블루투스 디바이스와 통신하는 소켓 생성
-
         try {
-
-            bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);
-
-            bluetoothSocket.connect();
-
-            // 데이터 송,수신 스트림을 얻어옵니다.
-
-            outputStream = bluetoothSocket.getOutputStream();
-
-            inputStream = bluetoothSocket.getInputStream();
-
-            // 데이터 수신 함수 호출
-
-            receiveData();
-
+            mBluetoothSocket = mBluetoothDevice.createRfcommSocketToServiceRecord(BT_UUID);
+            mBluetoothSocket.connect();
+            mThreadConnectedBluetooth = new ConnectedBluetoothThread(mBluetoothSocket);
+            mThreadConnectedBluetooth.start();
+            mBluetoothHandler.obtainMessage(BT_CONNECTING_STATUS, 1, -1).sendToTarget();
         } catch (IOException e) {
+            Toast.makeText(getApplicationContext(), "블루투스 연결 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
+        }
+    }
 
-            e.printStackTrace();
+    private class ConnectedBluetoothThread extends Thread {
+        private final BluetoothSocket mmSocket;
+        private final InputStream mmInStream;
+        private final OutputStream mmOutStream;
 
+        public ConnectedBluetoothThread(BluetoothSocket socket) {
+            mmSocket = socket;
+            InputStream tmpIn = null;
+            OutputStream tmpOut = null;
+
+            try {
+                tmpIn = socket.getInputStream();
+                tmpOut = socket.getOutputStream();
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "소켓 연결 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
+            }
+
+            mmInStream = tmpIn;
+            mmOutStream = tmpOut;
         }
 
-    }
+        public void run() {
+            byte[] buffer = new byte[1024];
+            int bytes;
 
-    public void sendBtnClicked() {
-        buttonSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendData(editTextSend.getText().toString());
-            }
-        });
-    }
-
-    public void receiveData() {
-
-        final Handler handler = new Handler();
-
-        // 데이터를 수신하기 위한 버퍼를 생성
-
-        readBufferPosition = 0;
-
-        readBuffer = new byte[1024];
-
-
-        // 데이터를 수신하기 위한 쓰레드 생성
-
-        workerThread = new Thread(new Runnable() {
-
-            @Override
-
-            public void run() {
-
-                while (Thread.currentThread().isInterrupted()) {
-
-                    try {
-
-                        // 데이터를 수신했는지 확인합니다.
-
-                        int byteAvailable = inputStream.available();
-
-                        // 데이터가 수신 된 경우
-
-                        if (byteAvailable > 0) {
-
-                            // 입력 스트림에서 바이트 단위로 읽어 옵니다.
-
-                            byte[] bytes = new byte[byteAvailable];
-
-                            inputStream.read(bytes);
-
-                            // 입력 스트림 바이트를 한 바이트씩 읽어 옵니다.
-
-                            for (int i = 0; i < byteAvailable; i++) {
-
-                                byte tempByte = bytes[i];
-
-                                // 개행문자를 기준으로 받음(한줄)
-
-                                if (tempByte == '\n') {
-
-                                    // readBuffer 배열을 encodedBytes로 복사
-
-                                    byte[] encodedBytes = new byte[readBufferPosition];
-
-                                    System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.length);
-
-                                    // 인코딩 된 바이트 배열을 문자열로 변환
-
-                                    final String text = new String(encodedBytes, "US-ASCII");
-
-                                    readBufferPosition = 0;
-
-                                    handler.post(new Runnable() {
-
-                                        @Override
-
-                                        public void run() {
-
-                                            // 텍스트 뷰에 출력
-
-                                            textViewReceive.append(text + "\n");
-
-                                        }
-
-                                    });
-
-                                } // 개행 문자가 아닐 경우
-
-                                else {
-
-                                    readBuffer[readBufferPosition++] = tempByte;
-
-                                }
-
-                            }
-
-                        }
-
-                    } catch (IOException e) {
-
-                        e.printStackTrace();
-
+            while (true) {
+                try {
+                    bytes = mmInStream.available();
+                    if (bytes != 0) {
+                        SystemClock.sleep(100);
+                        bytes = mmInStream.available();
+                        bytes = mmInStream.read(buffer, 0, bytes);
+                        mBluetoothHandler.obtainMessage(BT_MESSAGE_READ, bytes, -1, buffer).sendToTarget();
                     }
-
-                    try {
-
-                        // 1초마다 받아옴
-
-                        Thread.sleep(1000);
-
-                    } catch (InterruptedException e) {
-
-                        e.printStackTrace();
-
-                    }
-
+                } catch (IOException e) {
+                    break;
                 }
-
             }
-
-        });
-
-        workerThread.start();
-
-    }
-
-    void sendData(String text) {
-
-        // 문자열에 개행문자("\n")를 추가해줍니다.
-
-        text += "\n";
-
-        try {
-
-            // 데이터 송신
-
-            outputStream.write(text.getBytes());
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
         }
 
+        public void write(String str) {
+            byte[] bytes = str.getBytes();
+            try {
+                mmOutStream.write(bytes);
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "데이터 전송 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        public void cancel() {
+            try {
+                mmSocket.close();
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "소켓 해제 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
+            }
+        }
     }
-
-
 }
-

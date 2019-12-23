@@ -34,7 +34,7 @@
             android:id="@+id/user_set_name"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/person_24_px"
+            android:drawableLeft="@drawable/ic_person_black_24dp"
             android:inputType="text" />
 
     </LinearLayout>
@@ -44,21 +44,21 @@
         android:id="@+id/user_set_email"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/email_24_px" />
+        android:drawableLeft="@drawable/ic_email_black_24dp" />
 
 
     <EditText
         android:id="@+id/user_set_division"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/business_24_px" />
+        android:drawableLeft="@drawable/ic_business_black_24dp" />
 
 
     <EditText
         android:id="@+id/user_set_tel"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/call_24_px" />
+        android:drawableLeft="@drawable/ic_call_black_24dp" />
 
     <RelativeLayout
         android:layout_width="300dp"
